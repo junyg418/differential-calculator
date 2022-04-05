@@ -1,5 +1,7 @@
 # value = input().split(' ')
-
+'''
+jisujisu- ax^n 함수가 아직 구현되지 않아 지수에 지수가 있을경우 지수의 미분값이 None이나오는 오류 생김
+'''
 def checksign(value):#일반 스펙 곱미분법 분류 함수
     pass
 
@@ -13,7 +15,7 @@ def multiplymibun(value):
 def jisumibun(value): #value ex) 4^7x, log(1,x), 2x, e^4x+1 |ln은사용 x
     if '^' in value:
         # valuenum = value[:value.index('e'or'x')]
-        jisu = value[value.index('^')+1:]
+        jisu = value[value.index('^')+1:]#str
         minusbool  = False
         if jisu[0] == '-':#부호
             if value[0] == '-':
@@ -22,7 +24,7 @@ def jisumibun(value): #value ex) 4^7x, log(1,x), 2x, e^4x+1 |ln은사용 x
                 minusbool = True
         if 'e' in value:
             valuenum = [int(aa) for aa in value[:value.index('e')].split() if aa.isdigit()]
-            print(valuenum)
+            val = valuenum[0]
             if jisu.isdigit():#상수 확인
                 return '0'
             elif '^' in jisu:#지수에 지수가 있을 때
@@ -30,12 +32,22 @@ def jisumibun(value): #value ex) 4^7x, log(1,x), 2x, e^4x+1 |ln은사용 x
                 return f"{'-'if minusbool else ''}{jisujisu if jisujisu !='1'else ''}e^{jisu}"
             else:#지수가 1차일때 
                 fjisu = jisu[:jisu.index('x')]
-                return f"{'-'if minusbool else ''}{valuenum*int(fjisu)}e^{jisu}"
+                sangsu = val*int(fjisu)
+                return f"{'-'if minusbool else ''}{sangsu if sangsu != 1 else ''}e^{jisu}"
         
         else:#a^x일때
-            pass
+            valuenum = [int(aa) for aa in value[:value.index('x')].split() if aa.isdigit()]
+            val = valuenum[0]
+            if jisu.isdigit():
+                return '0'
+            # elif '^' in jisu:  #구현 조금 힘듦 4x^2x^2 = lnf(x) = 2x^2*ln4x
+            #     jisujisu = jisumibun(jisu)
+            #     return f"{'-'if minusbool else ''}{jisujisu if jisujisu != '1' else''}x^{jisu}"
+            else:
+                fjisu = jisu[:jisu.index('x')]
+                sangsu = val*int(fjisu)
 
-print(jisumibun('44e^7x'))
+print(jisumibun('45e^7x'))
 
 def triFunc(value):
     useValue = value.lower()
@@ -55,7 +67,7 @@ def plusMinChange(value):
                     answer[index-1] = '-' 
 
 
-# answer = []
+answer = []
 # ans_str = '미분값: '
 # for core in answer:
 #     ans_str += core
