@@ -1,5 +1,7 @@
 import re
 
+    # elements = num.split(' ')
+    # print(elements)
 
 def x_num(num:str) -> str: # 밑^[지수]  밑=mit 지수=jisu
     '''
@@ -10,19 +12,24 @@ def x_num(num:str) -> str: # 밑^[지수]  밑=mit 지수=jisu
         -지수갯수이상 지우기
         -다항식 처리연산하기
     '''
-    mit = num[:num.index('^')]
-    mitnum = list(map(int, re.findall('\d+',num[:num.index('^')])))
-    jisunum = list(map(int, re.findall('\d+',num[num.index('^['):])))
-
-    if len(jisunum) != 1: #지수에 숫자값이 한개가 아닐때 -> 비정상
-        pass
+    if not '^' in num:
+        mitnum = list(map(int, re.findall('\d+',num[:num.index('x')])))
+        if len(mitnum) == 1:
+            return mitnum[0]
     else:
-        if len(mitnum) != 1: #띄어쓰기된 숫자 있다 판단 -> 다른 x값 있다.
-            print('지수 갯수 이상') #나중에 다른함수로 연결예정
-        else:#밑, 지수의 갯수가 일방적일때
-            mitnum = mitnum[0]
-            jisunum = jisunum[0]
-            return (f"{mitnum*jisunum}{'x' if jisunum >= 1 else ''}{f'^[{jisunum-1}]' if jisunum-1 > 1 or jisunum-1 < 1 else ''}")
+        mit = num[num.index('^')-1:num.index('^')]
+        mitnum = list(map(int, re.findall('\d+',num[:num.index('^')])))
+        jisunum = list(map(int, re.findall('\d+',num[num.index('^['):])))
+
+        if len(jisunum) != 1: #지수에 숫자값이 한개가 아닐때 -> 다항식지수? ex) (4x + 1)^x
+            pass
+        else:
+            if len(mitnum) != 1: #띄어쓰기된 숫자 있다 판단 -> 다른 x값 있다.
+                print('지수 갯수 이상') #나중에 다른함수로 연결예정
+            else:#밑, 지수의 갯수가 일방적일때
+                mitnum = mitnum[0]
+                jisunum = jisunum[0]
+                return (f"{mitnum*jisunum}{'x' if jisunum != 1 else ''}{'' if jisunum-1 > 1 or jisunum-1 < 1 else f'^[{jisunum-1}]'}")
 
 def e_fx(num:str)->str:
     '''
