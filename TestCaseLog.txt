@@ -1,0 +1,5 @@
+fx_num('x^[4]') -> good
+fx_num('4x^[20]') -> good
+fx_num('3x') -> 3
+fx_num('4x[2]') -> 4 /fail -> ^ 추가하지 않음
+fx_num('4x^[2]') -> 8x /good

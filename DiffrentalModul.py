@@ -2,6 +2,13 @@ import re
 
     # elements = num.split(' ')
     # print(elements)
+def polynomial(formula:str) -> str:
+    '''
+    사용 용도:
+        식이 다항식일때 분류해주는 함수
+    '''
+
+
 
 def fx_num(num:str) -> str: # 밑^[지수]  밑=mit 지수=jisu
     '''
@@ -11,8 +18,7 @@ def fx_num(num:str) -> str: # 밑^[지수]  밑=mit 지수=jisu
         -밑^[지수]
     Raises:
         -mit의 슬라이스에서 앞부분을 전체 슬라이싱 했을 때
-        앞부분에 예상치 못한 다항식일때 오류발생예정\n
-        -밑에 수가 존재 하지않으면 None 발생
+        앞부분에 예상치 못한 다항식일때 오류발생예정
     Todo:
         -지수갯수이상 지우기\n
         -다항식 처리연산하기
@@ -27,7 +33,7 @@ def fx_num(num:str) -> str: # 밑^[지수]  밑=mit 지수=jisu
         jisunum = list(map(int, re.findall('\d+',num[num.index('^['):])))
 
         if len(jisunum) != 1: #지수에 숫자값이 한개가 아닐때 -> 다항식지수? ex) 4x^[4x + 1]
-            pass
+            print('지수 이상')
         else:
             if len(mitnum) > 1: #띄어쓰기된 숫자 있다 판단 -> 다른 x값 있다.
                 print('밑 갯수 이상') #나중에 다른함수로 연결예정
@@ -40,8 +46,11 @@ def fx_num(num:str) -> str: # 밑^[지수]  밑=mit 지수=jisu
                 return (f"{mitnum*jisunum}{'x' if jisunum != 1 else ''}{f'^[{jisunum-1}]' if jisunum-1 > 1 or jisunum-1 < 1 else ''}")
 
 if '__main__' == __name__:
-    print(fx_num('x^[4]'))
-
+    f = open('TestCaseLog.txt', 'a')
+    data = input()
+    print(fx_num(data))
+    f.write(f"fx_num('{data}') -> {fx_num(data)}\n")
+    f.close()
 
 
 
@@ -52,4 +61,10 @@ def e_fx(num:str)->str:
     '''
     mitnum = list(map(int, re.findall('\d+',num[:num.index('^')])))
     jisunum = list(map(int, re.findall('\d+',num[num.index('^['):])))
-# print(x_num(input()))
+
+# if '__main__' == __name__:
+#     f = open('TestCaseLog.txt', 'a')
+#     data = input()
+#     print(e_fx(data))
+#     f.write(f"e_fx('{data}') -> {e_fx(data)}\n")
+#     f.close()
