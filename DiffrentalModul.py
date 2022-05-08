@@ -1,14 +1,28 @@
 import re
 
-    # elements = num.split(' ')
-    # print(elements)
-def polynomial(formula:str) -> str:
+
+def polynomial(formula:str) -> list:
     '''
     사용 용도:
         식이 다항식일때 분류해주는 함수
+    매개 변수:
+        ex) 3x + 1
+    Todo:
+        return 값 서술해두기
+        어떻게 값을 나눌지 +, - 기준? -> 괄호 안에 있을때의 값은 제외하고 나눠야함
     '''
+    objects = list(formula.split())
+    print(objects)
 
+if '__main__' == __name__:
+    polynomial('ax[ax + 1] + 1')
 
+def constant(num:str) -> str:
+    '''
+    사용 용도:
+        상수항일때 사용
+    '''
+    return '0'
 
 def fx_num(num:str) -> str: # 밑^[지수]  밑=mit 지수=jisu
     '''
@@ -45,14 +59,12 @@ def fx_num(num:str) -> str: # 밑^[지수]  밑=mit 지수=jisu
                 jisunum = jisunum[0]
                 return (f"{mitnum*jisunum}{'x' if jisunum != 1 else ''}{f'^[{jisunum-1}]' if jisunum-1 > 1 or jisunum-1 < 1 else ''}")
 
-if '__main__' == __name__:
-    f = open('TestCaseLog.txt', 'a')
-    data = input()
-    print(fx_num(data))
-    f.write(f"fx_num('{data}') -> {fx_num(data)}\n")
-    f.close()
-
-
+# if '__main__' == __name__:
+#     f = open('TestCaseLog.txt', 'a')
+#     data = input()
+#     print(fx_num(data))
+#     f.write(f"fx_num('{data}') -> {fx_num(data)}\n")
+#     f.close()
 
 def e_fx(num:str)->str:
     '''
