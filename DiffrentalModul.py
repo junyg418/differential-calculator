@@ -11,9 +11,54 @@ def polynomial(formula:str) -> list:
         return 값 서술해두기
         어떻게 값을 나눌지 +, - 기준? -> 괄호 안에 있을때의 값은 제외하고 나눠야함
     '''
-    objects = list(formula.split())
-    print(objects)
+def division(formula:str)->list:
+    '''
+    사용 용도:
+        괄호 판별 및 값 나누기
+    '''
+    results = []
+    while '[' in formula or '(' in formula or '{' in formula:
+        try:
+            if '[' in formula:
+                gual(formula, '[', ']')
+            elif '{' in formula:
+                gual(formula, '{', '}')
+            elif '(' in formula:
+                gual(formula, '(', ')')
+            else:
+                pass
+        except:
+            print('입력값이 잘못되었습니다')
+    else:
+        print('괄호 없을 떄')
 
+
+    def gual(gual, back_gual):
+        '''
+        Todo:
+            추출한 문자열을 formula 에서 제거해야함
+        '''
+        nonlocal results
+        nonlocal formula
+        try:
+            # var_guals = ['[','{','(',']','}',')']
+            gual_start = formula.find(gual)
+            gual_end = formula.find(back_gual)
+            sik_start = formula[:gual_start].rfind(' ')
+            if sik_start == -1:
+                sik = formula[:gual_end+1]
+                results.append(sik)
+                # formula.strip(sik)
+                return 0
+            sik = formula[sik_start:gual_end+1]
+            results.append(sik)
+            # formula.strip(sik)
+            return 0
+        except:
+            raise Exception('gual 함수에서 오류')
+
+
+    pass
 if '__main__' == __name__:
     polynomial('ax[ax + 1] + 1')
 
@@ -23,6 +68,7 @@ def constant(num:str) -> str:
         상수항일때 사용
     '''
     return '0'
+
 
 def fx_num(num:str) -> str: # 밑^[지수]  밑=mit 지수=jisu
     '''
@@ -65,6 +111,7 @@ def fx_num(num:str) -> str: # 밑^[지수]  밑=mit 지수=jisu
 #     print(fx_num(data))
 #     f.write(f"fx_num('{data}') -> {fx_num(data)}\n")
 #     f.close()
+
 
 def e_fx(num:str)->str:
     '''
