@@ -1,3 +1,4 @@
+import locale
 import re
 
 
@@ -11,6 +12,9 @@ def polynomial(formula:str) -> list:
         return 값 서술해두기
         어떻게 값을 나눌지 +, - 기준? -> 괄호 안에 있을때의 값은 제외하고 나눠야함
     '''
+
+
+
 def division(formula:str)->list:
     '''
     사용 용도:
@@ -18,49 +22,52 @@ def division(formula:str)->list:
     '''
     results = []
     while '[' in formula or '(' in formula or '{' in formula:
-        try:
+        # try:
             if '[' in formula:
-                gual(formula, '[', ']')
+                gual('[', ']')
             elif '{' in formula:
-                gual(formula, '{', '}')
+                gual('{', '}')
             elif '(' in formula:
-                gual(formula, '(', ')')
+                gual('(', ')')
             else:
                 pass
-        except:
+        # except:
             print('입력값이 잘못되었습니다')
     else:
         print('괄호 없을 떄')
+    print(results)
 
 
-    def gual(gual, back_gual):
+    def gual(first_gual, back_gual):
         '''
         Todo:
             추출한 문자열을 formula 에서 제거해야함
         '''
         nonlocal results
         nonlocal formula
+        
         try:
             # var_guals = ['[','{','(',']','}',')']
-            gual_start = formula.find(gual)
+            gual_start = formula.find(first_gual)
             gual_end = formula.find(back_gual)
+            while back_gual in formula[gual_start+1:gual_end]:
+                gual_end = formula[gual_end:].find(back_gual)
             sik_start = formula[:gual_start].rfind(' ')
-            if sik_start == -1:
+            if sik_start == -1: # 식 앞에 아무것도 없을 때
                 sik = formula[:gual_end+1]
                 results.append(sik)
-                # formula.strip(sik)
+                formula = formula[gual_end+1:]
                 return 0
             sik = formula[sik_start:gual_end+1]
             results.append(sik)
-            # formula.strip(sik)
+            formula = formula[:sik_start]+formula[gual_end:]
             return 0
         except:
             raise Exception('gual 함수에서 오류')
 
 
-    pass
 if '__main__' == __name__:
-    polynomial('ax[ax + 1] + 1')
+    division('ax[ax + 1] + 1')
 
 def constant(num:str) -> str:
     '''
