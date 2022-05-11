@@ -1,4 +1,3 @@
-import locale
 import re
 
 
@@ -20,24 +19,6 @@ def division(formula:str)->list:
     사용 용도:
         괄호 판별 및 값 나누기
     '''
-    results = []
-    while '[' in formula or '(' in formula or '{' in formula:
-        # try:
-            if '[' in formula:
-                gual('[', ']')
-            elif '{' in formula:
-                gual('{', '}')
-            elif '(' in formula:
-                gual('(', ')')
-            else:
-                pass
-        # except:
-            print('입력값이 잘못되었습니다')
-    else:
-        print('괄호 없을 떄')
-    print(results)
-
-
     def gual(first_gual, back_gual):
         '''
         Todo:
@@ -50,24 +31,46 @@ def division(formula:str)->list:
             # var_guals = ['[','{','(',']','}',')']
             gual_start = formula.find(first_gual)
             gual_end = formula.find(back_gual)
-            while back_gual in formula[gual_start+1:gual_end]:
-                gual_end = formula[gual_end:].find(back_gual)
+            cutt = gual_start +1
+            while first_gual in formula[cutt:gual_end]:
+                gual_end = formula.find(back_gual,gual_end+1)
+                if formula[gual_start:gual_end+1].count(first_gual) == formula[gual_start:gual_end+1].count(back_gual):
+                    break
             sik_start = formula[:gual_start].rfind(' ')
             if sik_start == -1: # 식 앞에 아무것도 없을 때
                 sik = formula[:gual_end+1]
                 results.append(sik)
                 formula = formula[gual_end+1:]
-                return 0
-            sik = formula[sik_start:gual_end+1]
-            results.append(sik)
-            formula = formula[:sik_start]+formula[gual_end:]
-            return 0
+                # return 0
+            else:
+                sik = formula[sik_start:gual_end+1]
+                results.append(sik)
+                formula = formula[:sik_start]+formula[gual_end:]
+            # return 0
         except:
             raise Exception('gual 함수에서 오류')
+    results = []
+    while '[' in formula or '(' in formula or '{' in formula:
+        try:
+            if '[' in formula:
+                gual('[', ']')
+            elif '{' in formula:
+                gual('{', '}')
+            elif '(' in formula:
+                gual('(', ')')
+            else:
+                pass
+        except:
+            print('입력값이 잘못되었습니다')
+    
+    print(results)
+    print(formula)
+
+
 
 
 if '__main__' == __name__:
-    division('ax[ax + 1] + 1')
+    division('ax[ax^[2] + 1] + 1')
 
 def constant(num:str) -> str:
     '''
