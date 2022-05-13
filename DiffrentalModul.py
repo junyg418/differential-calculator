@@ -10,6 +10,7 @@ def polynomial(formula:str) -> list:
     Todo:
         return 값 서술해두기
         어떻게 값을 나눌지 +, - 기준? -> 괄호 안에 있을때의 값은 제외하고 나눠야함
+
     '''
 
 
@@ -18,11 +19,13 @@ def division(formula:str)->list:
     '''
     사용 용도:
         괄호 판별 및 값 나누기
+    Todo:
+        문자열 분리해야함
     '''
     def gual(first_gual, back_gual):
         '''
         Todo:
-            추출한 문자열을 formula 에서 제거해야함
+            추출한 문자열을 formula 에서 제거해야함 -> 완전 짱잘함
         '''
         nonlocal results
         nonlocal formula
@@ -49,8 +52,12 @@ def division(formula:str)->list:
             # return 0
         except:
             raise Exception('gual 함수에서 오류')
+# --------------------------------------------------------------------------------------- 윗부분 gual 함수 정의
+
+
     results = []
-    while '[' in formula or '(' in formula or '{' in formula:
+    Operator = []
+    while '[' in formula or '(' in formula or '{' in formula:  # 괄호 작업
         try:
             if '[' in formula:
                 gual('[', ']')
@@ -61,16 +68,15 @@ def division(formula:str)->list:
             else:
                 pass
         except:
-            print('입력값이 잘못되었습니다')
+            print('입력값이 잘못되었습니다.->divsion 함수에서 오류')
     
     print(results)
     print(formula)
 
 
 
-
 if '__main__' == __name__:
-    division('ax[ax^[2] + 1] + 1')
+    division('ax[ax^[2] + 1] + 1[2]')
 
 def constant(num:str) -> str:
     '''
