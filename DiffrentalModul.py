@@ -20,12 +20,13 @@ def division(formula:str)->list:
     사용 용도:
         괄호 판별 및 값 나누기
     Todo:
-        문자열 분리해야함
+        문자열 분리해야함 -> 성공
+        +, - 연산자 나눠서 result 에 넣어야함
     '''
     def gual(first_gual, back_gual):
         '''
         Todo:
-            추출한 문자열을 formula 에서 제거해야함 -> 완전 짱잘함
+            사용법 적어두기
         '''
         nonlocal results
         nonlocal formula
@@ -39,16 +40,16 @@ def division(formula:str)->list:
                 gual_end = formula.find(back_gual,gual_end+1)
                 if formula[gual_start:gual_end+1].count(first_gual) == formula[gual_start:gual_end+1].count(back_gual):
                     break
-            sik_start = formula[:gual_start].rfind(' ')
+            sik_start = formula[:gual_start].rfind(' ')   # 이 부분에서 계산식 +, - 연산자 분리 안되어있어 오류
             if sik_start == -1: # 식 앞에 아무것도 없을 때
                 sik = formula[:gual_end+1]
                 results.append(sik)
                 formula = formula[gual_end+1:]
                 # return 0
             else:
-                sik = formula[sik_start:gual_end+1]
+                sik = formula[sik_start+1:gual_end+1]
                 results.append(sik)
-                formula = formula[:sik_start]+formula[gual_end:]
+                formula = formula[:sik_start+1]+formula[gual_end+1:]
             # return 0
         except:
             raise Exception('gual 함수에서 오류')
