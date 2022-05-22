@@ -23,6 +23,37 @@ def division(formula:str)->list:
         문자열 분리해야함 -> 성공
         +, - 연산자 나눠서 result 에 넣어야함
     '''
+
+
+    def signDetect()->bool:
+        '''
+        사용 용도:
+            +, - 연산자가 괄호 밖에서 연산 되었을 때 나눠주기 위함\n
+            추가로 상수확인도 해줌
+        Todo:
+            괄호 연산 후 formula에서 슬라이싱 하기
+            만약 간단한 + - 연산, 곱하기 나누기 연산이면 연산 해주기
+        '''
+        nonlocal results
+        nonlocal formula
+
+        fomula_idx0 = formula.lstrip()[0]
+
+        if fomula_idx0 == '+':
+            results.append('+')
+            return False
+        elif fomula_idx0 == '-':
+            results.append('-')
+            return False
+        elif fomula_idx0 == '*':
+            results.append('*')
+            return False
+        elif fomula_idx0 == '/':
+            results.append('/')
+            return False
+        return True
+
+
     def gual(first_gual, back_gual):
         '''
         Todo:
@@ -32,7 +63,6 @@ def division(formula:str)->list:
         nonlocal formula
         
         try:
-            # var_guals = ['[','{','(',']','}',')']
             gual_start = formula.find(first_gual)
             gual_end = formula.find(back_gual)
             cutt = gual_start +1
@@ -40,24 +70,22 @@ def division(formula:str)->list:
                 gual_end = formula.find(back_gual,gual_end+1)
                 if formula[gual_start:gual_end+1].count(first_gual) == formula[gual_start:gual_end+1].count(back_gual):
                     break
-            sik_start = formula[:gual_start].rfind(' ')   # 이 부분에서 계산식 +, - 연산자 분리 안되어있어 오류
-            if sik_start == -1: # 식 앞에 아무것도 없을 때
+
+            sik_start = formula[:gual_start].rfind(' ')+1   # 이 부분에서 계산식 +, - 연산자 분리 안되어있어 오류
+            if sik_start:
+                sik = formula[sik_start:gual_end+1]
+                results.append(sik)
+                formula = formula[:sik_start]+formula[gual_end+1:]
+            else: # 식 앞에 아무것도 없을 때
                 sik = formula[:gual_end+1]
                 results.append(sik)
                 formula = formula[gual_end+1:]
-                # return 0
-            else:
-                sik = formula[sik_start+1:gual_end+1]
-                results.append(sik)
-                formula = formula[:sik_start+1]+formula[gual_end+1:]
-            # return 0
         except:
             raise Exception('gual 함수에서 오류')
 # --------------------------------------------------------------------------------------- 윗부분 gual 함수 정의
 
 
     results = []
-    Operator = []
     while '[' in formula or '(' in formula or '{' in formula:  # 괄호 작업
         try:
             if '[' in formula:
@@ -66,10 +94,19 @@ def division(formula:str)->list:
                 gual('{', '}')
             elif '(' in formula:
                 gual('(', ')')
-            else:
-                pass
         except:
             print('입력값이 잘못되었습니다.->divsion 함수에서 오류')
+        else:
+            if formula: # formula(str) 에 남아있는 값이 있다면 -> 연산부호 or 단항식 or 상수항
+                signDetect() # 단항식 or 상수항 -> 부호라면 연산처리
+
+    elseValue = formula.split()
+    for value in elseValue:
+        results.append(elseValue)
+    # while formula: # 나머지 단항식, 상수항이 남았을 경우
+    #     if signDetect():
+    #         if formula.isdigit(): # 상수항 인가??
+                
     
     print(results)
     print(formula)
@@ -77,7 +114,7 @@ def division(formula:str)->list:
 
 
 if '__main__' == __name__:
-    division('ax[ax^[2] + 1] + 1[2]')
+    division('ax[ax^[2] + 1] + 1')
 
 def constant(num:str) -> str:
     '''
