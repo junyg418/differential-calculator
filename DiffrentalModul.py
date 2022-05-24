@@ -31,7 +31,6 @@ def division(formula:str)->list:
             +, - 연산자가 괄호 밖에서 연산 되었을 때 나눠주기 위함\n
             추가로 상수확인도 해줌
         Todo:
-            괄호 연산 후 formula에서 슬라이싱 하기
             만약 간단한 + - 연산, 곱하기 나누기 연산이면 연산 해주기
         '''
         nonlocal results
@@ -40,15 +39,19 @@ def division(formula:str)->list:
         fomula_idx0 = formula.lstrip()[0]
 
         if fomula_idx0 == '+':
+            formula = formula.lstrip()[1:].lstrip()
             results.append('+')
             return False
         elif fomula_idx0 == '-':
+            formula = formula.lstrip()[1:].lstrip()
             results.append('-')
             return False
         elif fomula_idx0 == '*':
+            formula = formula.lstrip()[1:].lstrip()
             results.append('*')
             return False
         elif fomula_idx0 == '/':
+            formula = formula.lstrip()[1:].lstrip()
             results.append('/')
             return False
         return True
@@ -102,19 +105,16 @@ def division(formula:str)->list:
 
     elseValue = formula.split()
     for value in elseValue:
-        results.append(elseValue)
+        results.append(value)
     # while formula: # 나머지 단항식, 상수항이 남았을 경우
     #     if signDetect():
     #         if formula.isdigit(): # 상수항 인가??
-                
     
-    print(results)
-    print(formula)
-
+    return results # division 반환값
 
 
 if '__main__' == __name__:
-    division('ax[ax^[2] + 1] + 1')
+    print(division('ax[ax^[2] + 1] + 1 - x'))
 
 def constant(num:str) -> str:
     '''
