@@ -57,7 +57,7 @@ def division(formula:str)->list:
         return True
 
 
-    def gual(first_gual, back_gual):
+    def gual(first_gual):
         '''
         Todo:
             사용법 적어두기
@@ -65,6 +65,9 @@ def division(formula:str)->list:
         nonlocal results
         nonlocal formula
         
+        guals_reverse = {'[':']','{':'}','(':')'}
+        back_gual = guals_reverse[first_gual]
+
         try:
             gual_start = formula.find(first_gual)
             gual_end = formula.find(back_gual)
@@ -92,11 +95,11 @@ def division(formula:str)->list:
     while '[' in formula or '(' in formula or '{' in formula:  # 괄호 작업
         try:
             if '[' in formula:
-                gual('[', ']')
+                gual('[')
             elif '{' in formula:
-                gual('{', '}')
+                gual('{')
             elif '(' in formula:
-                gual('(', ')')
+                gual('(')
         except:
             print('입력값이 잘못되었습니다.->divsion 함수에서 오류')
         else:
@@ -113,8 +116,8 @@ def division(formula:str)->list:
     return results # division 반환값
 
 
-if '__main__' == __name__:
-    print(division('ax[ax^[2] + 1] + 1 - x'))
+# if '__main__' == __name__:
+#     print(division('ax[ax^[2] + 1] + 1 - x'))
 
 def constant(num:str) -> str:
     '''
@@ -159,12 +162,12 @@ def fx_num(num:str) -> str: # 밑^[지수]  밑=mit 지수=jisu
                 jisunum = jisunum[0]
                 return (f"{mitnum*jisunum}{'x' if jisunum != 1 else ''}{f'^[{jisunum-1}]' if jisunum-1 > 1 or jisunum-1 < 1 else ''}")
 
-# if '__main__' == __name__:
-#     f = open('TestCaseLog.txt', 'a')
-#     data = input()
-#     print(fx_num(data))
-#     f.write(f"fx_num('{data}') -> {fx_num(data)}\n")
-#     f.close()
+if '__main__' == __name__:
+    f = open('TestCaseLog.txt', 'a')
+    data = input()
+    print(fx_num(data))
+    f.write(f"fx_num('{data}') -> {fx_num(data)}\n")
+    f.close()
 
 
 def e_fx(num:str)->str:
@@ -175,6 +178,7 @@ def e_fx(num:str)->str:
     mitnum = list(map(int, re.findall('\d+',num[:num.index('^')])))
     jisunum = list(map(int, re.findall('\d+',num[num.index('^['):])))
 
+    
 # if '__main__' == __name__:
 #     f = open('TestCaseLog.txt', 'a')
 #     data = input()
