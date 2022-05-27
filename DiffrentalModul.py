@@ -15,6 +15,53 @@ def polynomial(formula:str) -> list:
 
 
 
+def gual(first_gual, *, formula:str = None, idx:bool = False):
+    '''
+    사용법:
+        first_gual: 괄호시작 종류, formula:공식, idx: 시작 앞뒤 인덱스 반환여부
+    return값:
+        idx -> True
+            (gual_start, gual_end)
+        idx -> False
+            (sik, formula)
+    Todo:
+        사용법 적어두기
+        단순한 함수화 시키기
+    '''
+    # nonlocal results
+    # nonlocal formula
+    
+    guals_reverse = {'[':']','{':'}','(':')'}
+    back_gual = guals_reverse[first_gual]
+
+    try:
+        gual_start = formula.find(first_gual)
+        gual_end = formula.find(back_gual)
+        cutt = gual_start +1
+        while first_gual in formula[cutt:gual_end]:
+            gual_end = formula.find(back_gual,gual_end+1)
+            if formula[gual_start:gual_end+1].count(first_gual) == formula[gual_start:gual_end+1].count(back_gual):
+                break
+# 여기서 괄호 위치 찾는 연산 끝 ->gual_start, gual_end
+        if idx:
+            return (gual_start, gual_end)
+
+        sik_start = formula[:gual_start].rfind(' ')+1   # 이 부분에서 계산식 +, - 연산자 분리 안되어있어 오류
+        if sik_start:
+            sik = formula[sik_start:gual_end+1]
+            # results.append(sik)
+            formula = formula[:sik_start]+formula[gual_end+1:]
+        else: # 식 앞에 아무것도 없을 때
+            sik = formula[:gual_end+1]
+            # results.append(sik)
+            formula = formula[gual_end+1:]
+        return (sik, formula)
+
+    except:
+        raise Exception('gual 함수에서 오류')
+
+
+
 def division(formula:str)->list:
     '''
     사용 용도:
@@ -56,53 +103,22 @@ def division(formula:str)->list:
             return False
         return True
 
-
-    def gual(first_gual):
-        '''
-        Todo:
-            사용법 적어두기
-        '''
-        nonlocal results
-        nonlocal formula
-        
-        guals_reverse = {'[':']','{':'}','(':')'}
-        back_gual = guals_reverse[first_gual]
-
-        try:
-            gual_start = formula.find(first_gual)
-            gual_end = formula.find(back_gual)
-            cutt = gual_start +1
-            while first_gual in formula[cutt:gual_end]:
-                gual_end = formula.find(back_gual,gual_end+1)
-                if formula[gual_start:gual_end+1].count(first_gual) == formula[gual_start:gual_end+1].count(back_gual):
-                    break
-
-            sik_start = formula[:gual_start].rfind(' ')+1   # 이 부분에서 계산식 +, - 연산자 분리 안되어있어 오류
-            if sik_start:
-                sik = formula[sik_start:gual_end+1]
-                results.append(sik)
-                formula = formula[:sik_start]+formula[gual_end+1:]
-            else: # 식 앞에 아무것도 없을 때
-                sik = formula[:gual_end+1]
-                results.append(sik)
-                formula = formula[gual_end+1:]
-        except:
-            raise Exception('gual 함수에서 오류')
-# --------------------------------------------------------------------------------------- 윗부분 gual 함수 정의
+# --------------------------------------------------------------------------------------- 내부함수 정의
 
 
     results = []
     while '[' in formula or '(' in formula or '{' in formula:  # 괄호 작업
         try:
             if '[' in formula:
-                gual('[')
+                sik, formula = gual('[', formula=formula)
             elif '{' in formula:
-                gual('{')
+                sik, formula = gual('{', formula=formula)
             elif '(' in formula:
-                gual('(')
+                sik, formula = gual('(', formula=formula)
         except:
             print('입력값이 잘못되었습니다.->divsion 함수에서 오류')
         else:
+            results.append(sik)
             if formula: # formula(str) 에 남아있는 값이 있다면 -> 연산부호 or 단항식 or 상수항
                 signDetect() # 단항식 or 상수항 -> 부호라면 연산처리
 
