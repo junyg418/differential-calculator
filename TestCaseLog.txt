@@ -3,3 +3,9 @@ fx_num('4x^[20]') -> good
 fx_num('3x') -> 3
 fx_num('4x[2]') -> 4 /fail -> ^ 추가하지 않음
 fx_num('4x^[2]') -> 8x /good
+fx_num('ax[ax^[2] + 1]') -> None
+fx_num('4x^[2x + 1]') -> None
+fx_num('4x^[2]') -> 8x
+fx_num('2x + 1') -> 2
+fx_num('2x^[4 + 1]') -> None
+fx_num('4x^[10]') -> 40x^[9]
